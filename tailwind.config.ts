@@ -8,6 +8,11 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        impact: 'Impact',
+        pokemonHollow: 'Pokemon Hollow',
+        pokemonSolid: 'Pokemon Solid',
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
