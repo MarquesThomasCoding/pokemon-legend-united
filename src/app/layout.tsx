@@ -1,6 +1,8 @@
-import type { Metadata } from "next";
 import { Montserrat } from 'next/font/google'
+import { Metadata } from "next";
 import "./globals.css";
+import Header from './components/Header'
+import { PokemonProvider } from '../store/PokemonStore';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -20,20 +22,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${montserrat.className} antialiased`}>
-        <header>
-          <div>
-            <h1>Username</h1>
-            <div>
-              <p>LV.<em>5</em></p>
-              <svg xmlns="http://www.w3.org/2000/svg" width="87" height="37" viewBox="0 0 87 37" fill="none">
-                <path d="M86.5 16.3952V0.5H8.5935L0.5 19.104V36.5H47.1566H77.6882L86.5 16.3952Z" fill="black" stroke="black"/>
-              </svg>
-            </div>
-          </div>
-          <div>
-          </div>
-        </header>
-        {children}
+        <PokemonProvider>
+          <Header/>
+          {children}
+        </PokemonProvider>
       </body>
     </html>
   );
