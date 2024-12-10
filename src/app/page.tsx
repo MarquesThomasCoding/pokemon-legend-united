@@ -32,7 +32,7 @@ export default async function Home() {
       <h1>Pokemon List</h1>
       <div className='w-full grid grid-cols-[repeat(auto-fit,208px)] justify-center gap-8'>
         {pokemons.map((pokemon: SpecificPokemon) =>
-          <CardShine key={pokemon.species.name} show={true} name={pokemon.species.name.toUpperCase()} imageSrc={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${pokemon.species.url.split('/')[6]}.png`} gradient={typesGradients[pokemon.types[0].type.name]} />
+          <CardShine key={pokemon.species.name} show={true} name={pokemon.species.name.toUpperCase()} imageSrc={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${pokemon.species.url.split('/')[6]}.png`} gradient={typesGradients[pokemon.types[0].type.name]} rarity={pokemon.rarity} />
         )}
       </div>
     </main>

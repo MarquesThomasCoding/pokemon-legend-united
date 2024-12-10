@@ -28,6 +28,7 @@ export default function Page({ params }: { params: Promise<{ slug: string }> }) 
           image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${(await pokemon).species.url.split('/')[6]}.png`,
           type: (await pokemon).types.map((type: any) => type.type.name),
           times: 1,
+          rarity: (await pokemon).rarity,
         };
     
         dispatch({ type: 'ADD_POKEMON', payload: newPokemon });
