@@ -2,10 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface User {
   username: string
+  pokecoins : number
 }
 
 const initialState: User = {
-  username: 'trainer'
+  username: 'Username',
+  pokecoins: 10
 }
 
 const usersSlice = createSlice({

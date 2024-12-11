@@ -23,6 +23,7 @@ export default function Page() {
             id="username" 
             value={username} 
             onChange={(e) => dispatch(setUsername(e.target.value))} 
+            maxLength={20}
           />
         </div>
         <button type="submit">Save settings</button>
