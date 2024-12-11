@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from 'react';
-import { usePokemonStore, Pokemon } from '../../../store/PokemonStore';
+import { usePokemonStore, PokemonItem } from '../../../store/PokemonStore';
 import Link from 'next/link';
 
 async function getSpecificPokemon(name: string) {
@@ -22,13 +22,22 @@ export default function Page({ params }: { params: Promise<{ slug: string }> }) 
     const pokemon = getSpecificPokemon(slug);
 
     const handleAddPokemon = async () => {
-        const newPokemon: Pokemon = {
-          id: (await pokemon).id,
-          name: (await pokemon).species.name,
-          image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${(await pokemon).species.url.split('/')[6]}.png`,
-          type: (await pokemon).types.map((type: any) => type.type.name),
-          times: 1,
-          rarity: (await pokemon).rarity,
+        const newPokemon: PokemonItem = {
+            id: (await pokemon).id,
+            image: (await pokemon).image,
+            species: {
+                name: (await pokemon).species.name,
+                url: (await pokemon).species.url,
+            },
+            types: [
+                {
+                    type: {
+                        name: (await pokemon).types[0].type.name,
+                    },
+                },
+            ],
+            rarity: (await pokemon).rarity,
+            times: 1,
         };
     
         dispatch({ type: 'ADD_POKEMON', payload: newPokemon });

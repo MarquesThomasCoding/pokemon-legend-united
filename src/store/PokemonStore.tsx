@@ -2,24 +2,31 @@
 
 import { createContext, useReducer, ReactNode, useContext } from 'react';
 
-export interface Pokemon {
+export interface PokemonItem {
     id: number;
-    name: string;
     image: string;
-    type: string[];
+    species: {
+        name: string;
+        url: string;
+    };
+    types: {
+        type: {
+            name: string;
+        };
+    }[];
     rarity: number;
     times: number;
 }
 
 // Définir le type d'action pour le reducer
 type Action =
-  | { type: 'ADD_POKEMON'; payload: Pokemon }
+  | { type: 'ADD_POKEMON'; payload: PokemonItem }
   | { type: 'REMOVE_POKEMON'; payload: number }
   | { type: 'CLEAR_COLLECTION' };
 
 // Définir le type pour l'état
 interface State {
-  collection: Pokemon[];
+  collection: PokemonItem[];
 }
 
 // État initial
