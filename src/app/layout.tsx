@@ -2,7 +2,7 @@ import { Montserrat } from 'next/font/google'
 import { Metadata } from "next";
 import "./globals.css";
 import Header from './components/Header'
-import { PokemonProvider } from '../store/PokemonStore';
+import Providers from './components/Providers'
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -21,11 +21,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${montserrat.className} antialiased`}>
-        <PokemonProvider>
+      <body className={`${montserrat.className} antialiased overflow-x-hidden`}>
+        <Providers>
           <Header/>
           {children}
-        </PokemonProvider>
+        </Providers>
       </body>
     </html>
   );

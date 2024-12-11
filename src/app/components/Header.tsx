@@ -1,12 +1,16 @@
+'use client'
 import Image from "next/image";
 import Link from "next/link";
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 export default function Header() {
+    const username = useSelector((state: RootState) => state.user.username);
     return (
         <header className="px-40 pt-6 flex items-center justify-between">
             <div className="flex items-center gap-5 font-pokemonSolid">
                 <Link href="/">
-                    <h1 className="text-4xl text-black">Username</h1>
+                    <h1 className="text-4xl text-black tracking-widest">{username}</h1>
                 </Link>
                 <div className="text-white p-6 bg-cover bg-no-repeat flex items-center justify-center">
                     <p className="absolute text-xl">LV.<em>5</em></p>
