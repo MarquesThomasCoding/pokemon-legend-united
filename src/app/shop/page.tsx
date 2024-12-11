@@ -29,13 +29,13 @@ export default function Page() {
                     </div>
                 </div>
                 <div className='w-full flex justify-center gap-4 pt-6'>
-                    <Link href="/gacha" className='w-fit h-full p-6 bg-blue-500 rounded-full flex items-center justify-center'>
+                    <Link href="/shop/gacha" className='w-fit h-full p-6 bg-blue-500 rounded-full flex items-center justify-center'>
                         Gacha x 1
                     </Link>
-                    <Link href="/gacha" className='w-fit h-full p-6 bg-blue-500 rounded-full flex items-center justify-center'>
+                    <Link href="/shop/gacha" className='w-fit h-full p-6 bg-blue-500 rounded-full flex items-center justify-center'>
                         Gacha x 10
                     </Link>
-                    <Link href="/gacha" className='w-fit h-full p-6 bg-blue-500 rounded-full flex items-center justify-center'>
+                    <Link href="/shop/gacha" className='w-fit h-full p-6 bg-blue-500 rounded-full flex items-center justify-center'>
                         Gacha x 50
                     </Link>
                 </div>
