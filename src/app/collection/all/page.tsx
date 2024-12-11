@@ -27,13 +27,12 @@ export default async function Home() {
   const pokemons = await getPokemonsList();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between gap-24 py-24">
-      <h1>Pokemon List</h1>
-      <div className='w-full grid grid-cols-[repeat(auto-fit,208px)] justify-center gap-8'>
+    <main className="flex min-h-screen flex-col items-center justify-between py-24">
+      <ul className='w-full grid grid-cols-[repeat(auto-fit,208px)] justify-center gap-8'>
         {pokemons.map((pokemon: PokemonItem) =>
           <CardShine key={pokemon.species.name} show={true} pokemon={pokemon} initialReverse />
         )}
-      </div>
+      </ul>
     </main>
   );
 }

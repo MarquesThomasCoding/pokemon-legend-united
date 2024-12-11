@@ -6,7 +6,7 @@ import { PokemonItem } from "../../store/PokemonStore";
 import { usePokemonStore } from "../../store/PokemonStore";
 import { typesGradients } from "@/utils/gradients";
 
-export const CardShine = ({ pokemon, show, initialReverse }: { pokemon: PokemonItem, show: boolean, initialReverse?: boolean }) => {
+export const CardShine = ({ pokemon, show, initialReverse, canSelect }: { pokemon: PokemonItem, show: boolean, initialReverse?: boolean, canSelect?: boolean }) => {
     const [reversed, setReversed] = useState(initialReverse);
     const { dispatch } = usePokemonStore();
     
@@ -37,8 +37,12 @@ export const CardShine = ({ pokemon, show, initialReverse }: { pokemon: PokemonI
       };
 
     return (
-        <div className={"[perspective:1000px] [transform-style:preserve-3d] transition-all duration-1000" + (reversed?"":" [transform:rotateY(180deg)] ") + (show?"flex":"hidden") + " relative w-52 h-80"} onClick={() => reverseCard()}>
-            <div className="w-full h-full bg-black absolute top-0 left-0"></div>
+        <div className={"[perspective:1000px] [transform-style:preserve-3d] transition-all duration-1000" + (reversed?"":" [transform:rotateY(180deg)] ") + (show?"flex":"hidden") + " relative w-52 h-80"} 
+            onClick={() => {
+                reverseCard(); 
+                if(canSelect) handleAddPokemon()
+            }}>
+            <div className="w-full h-full absolute top-0 left-0 rounded-xl bg-cover bg-no-repeat" style={{ backgroundImage: 'url(/images/pokemon-card-reverse-2.png)'}}></div>
             <div className={"[backface-visibility:hidden] absolute top-0 left-0 flex flex-col w-full h-full rounded-xl bg-gradient-to-r " + typesGradients[pokemon.types[0].type.name] + " cursor-pointer shadow-md shadow-gray-500"}>
                 <p className="font-semibold m-4 mb-0">{pokemon.species.name.charAt(0).toUpperCase() + pokemon.species.name.slice(1)}</p>
                 <div className="mx-4 flex gap-1">

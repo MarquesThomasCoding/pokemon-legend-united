@@ -1,5 +1,5 @@
 export const typesGradients: { [key: string]: string } = {
-    normal: "from-gray-300 to-gray-100",
+    normal: "from-gray-500 to-gray-300",
     fire: "from-red-500 to-orange-500",
     water: "from-blue-500 to-blue-300",
     electric: "from-yellow-500 to-yellow-300",

@@ -7,7 +7,7 @@ export default function Page() {
   const { state } = usePokemonStore();
 
   return (
-    <div>
+    <div className='text-black'>
       <h1>Your Pokémon Collection</h1>
       <ul>
         {state.collection.map((pokemon) => (

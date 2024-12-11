@@ -29,7 +29,7 @@ export default async function Page() {
     return (
         <div className="flex flex-wrap gap-4 items-center justify-center">
             {randomCards.map((card: PokemonItem) => (
-                <CardShine key={card.id} pokemon={card} show={true} initialReverse={false} />
+                <CardShine key={card.id} pokemon={card} show={true} initialReverse={false} canSelect />
             ))}
         </div>
     );
