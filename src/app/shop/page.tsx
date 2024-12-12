@@ -1,11 +1,27 @@
 'use client'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { reduceCoins, setGacha } from '../../store/userSlice';
 
 export default function Page() {
     const username = useSelector((state: RootState) => state.user.username);
+    const pokecoins = useSelector((state: RootState) => state.user.pokecoins);
+    const dispatch = useDispatch();
+    const router = useRouter();
+
+    const handleGacha = (amount: number, e: React.MouseEvent) => {
+        e.preventDefault();
+        if (pokecoins >= amount) {
+            dispatch(reduceCoins(amount));
+            dispatch(setGacha(amount));
+            router.push('/shop/gacha');
+        } else {
+            alert('Pas assez de pokecoins !');
+        }
+    };
     
     return (
         <>
@@ -29,13 +45,22 @@ export default function Page() {
                     </div>
                 </div>
                 <div className='w-full flex justify-center gap-4 pt-6'>
-                    <Link href="/shop/gacha" className='w-fit h-full p-6 bg-blue-500 rounded-full flex items-center justify-center'>
+                    <Link 
+                        onClick={(e)=> handleGacha(1, e)} 
+                        href="/shop/gacha?amount=" 
+                        className='w-fit h-full p-6 bg-blue-500 rounded-full flex items-center justify-center'>
                         Gacha x 1
                     </Link>
-                    <Link href="/shop/gacha" className='w-fit h-full p-6 bg-blue-500 rounded-full flex items-center justify-center'>
+                    <Link 
+                        onClick={(e)=> handleGacha(10, e)} 
+                        href="/shop/gacha?amount=10" 
+                        className='w-fit h-full p-6 bg-blue-500 rounded-full flex items-center justify-center'>
                         Gacha x 10
                     </Link>
-                    <Link href="/shop/gacha" className='w-fit h-full p-6 bg-blue-500 rounded-full flex items-center justify-center'>
+                    <Link 
+                        onClick={(e)=> handleGacha(50, e)} 
+                        href="/shop/gacha?amout=50" 
+                        className='w-fit h-full p-6 bg-blue-500 rounded-full flex items-center justify-center'>
                         Gacha x 50
                     </Link>
                 </div>

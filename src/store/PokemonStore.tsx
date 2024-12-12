@@ -16,6 +16,9 @@ export interface PokemonItem {
     }[];
     rarity: number;
     times: number;
+    cries: {
+      latest : string;
+    };
 }
 
 // Définir le type d'action pour le reducer

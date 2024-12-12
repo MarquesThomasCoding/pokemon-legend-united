@@ -6,6 +6,7 @@ import { RootState } from '../../store/store';
 
 export default function Header() {
     const username = useSelector((state: RootState) => state.user.username);
+    const usercoins = useSelector((state: RootState) => state.user.pokecoins);
     return (
         <header className="px-40 pt-6 flex items-center justify-between">
             <div className="flex items-center gap-5 font-pokemonSolid">
@@ -27,7 +28,7 @@ export default function Header() {
                         width={50}
                         height={50}
                     />
-                    10
+                    {usercoins}
                 </div>
                 <Link href="/settings">
                     <Image

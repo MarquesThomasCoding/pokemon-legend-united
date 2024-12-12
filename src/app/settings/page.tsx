@@ -1,15 +1,20 @@
 'use client'
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
-import { setUsername } from '../../store/userSlice';
+import { setUsername, redeemCode, setPokemonCries } from '../../store/userSlice';
+import { useState } from 'react';
+
 
 export default function Page() {
   const username = useSelector((state: RootState) => state.user.username);
+  const pokemonCries = useSelector((state: RootState) => state.user.cries);
   const dispatch = useDispatch();
+  const [code, setCode] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Le username est déjà sauvegardé dans Redux à chaque changement
+    dispatch(redeemCode(code));
+    setCode('');
   };
   return (
     <div>
@@ -24,6 +29,26 @@ export default function Page() {
             value={username} 
             onChange={(e) => dispatch(setUsername(e.target.value))} 
             maxLength={20}
+          />
+        </div>
+        <div>
+          <label>Redeem Code</label>
+          <input 
+            type="text" 
+            name="code" 
+            id="code" 
+            value= {code}
+            onChange={(e) => setCode(e.target.value)} 
+          />
+        </div>
+        <div>
+          <label>Allow pokemons cries</label>
+          <input 
+            type="checkbox" 
+            name="cries" 
+            id="cries" 
+            checked={pokemonCries}
+            onChange={(e) => dispatch(setPokemonCries(e.target.checked))} 
           />
         </div>
         <button type="submit">Save settings</button>

@@ -5,9 +5,12 @@ import Image from "next/image";
 import { PokemonItem } from "../../store/PokemonStore";
 import { usePokemonStore } from "../../store/PokemonStore";
 import { typesGradients } from "@/utils/gradients";
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 export const CardShine = ({ pokemon, show, initialReverse, canSelect }: { pokemon: PokemonItem, show: boolean, initialReverse?: boolean, canSelect?: boolean }) => {
     const [reversed, setReversed] = useState(initialReverse);
+    const pokemonCries = useSelector((state: RootState) => state.user.cries);
     const { dispatch } = usePokemonStore();
     
     const reverseCard = () => {
@@ -31,15 +34,26 @@ export const CardShine = ({ pokemon, show, initialReverse, canSelect }: { pokemo
             ],
             rarity: pokemon.rarity,
             times: 1,
+            cries: {
+                latest: pokemon.cries.latest,
+            },
         };
     
         dispatch({ type: 'ADD_POKEMON', payload: newPokemon });
       };
+    
+    const criesPokemon = () => {
+        if(pokemonCries){
+            const audio = new Audio(pokemon.cries.latest);
+            audio.play();
+        }
+    }
 
     return (
         <div className={"[perspective:1000px] [transform-style:preserve-3d] transition-all duration-1000" + (reversed?"":" [transform:rotateY(180deg)] ") + (show?"flex":"hidden") + " relative w-52 h-80"} 
             onClick={() => {
                 reverseCard(); 
+                criesPokemon();
                 if(canSelect) handleAddPokemon()
             }}>
             <div className="w-full h-full absolute top-0 left-0 rounded-xl bg-cover bg-no-repeat" style={{ backgroundImage: 'url(/images/pokemon-card-reverse-2.png)'}}></div>
