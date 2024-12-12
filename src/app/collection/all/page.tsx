@@ -1,6 +1,10 @@
+"use client"
+
 import { PokemonItem } from '@/store/PokemonStore';
 import { Pokemon } from '../../api/pokemons/route';
 import { CardShine } from '../../components/CardShine';
+import { Pagination } from '../../components/Pagination';
+import { useState, useEffect, Suspense } from 'react';
 
 async function getPokemonItem(name: string) {
   const response = await fetch("http://localhost:3000/api/pokemons/" + name);
@@ -8,8 +12,8 @@ async function getPokemonItem(name: string) {
   return data.data;
 }
 
-async function getPokemonsList() {
-  const response = await fetch("http://localhost:3000/api/pokemons");
+async function getPokemonsList(page: number) {
+  const response = await fetch("http://localhost:3000/api/pokemons" + `?page=${page}`);
   const data = await response.json();
   const pokemonsList: PokemonItem[] = [];
 
@@ -23,16 +27,28 @@ async function getPokemonsList() {
   return pokemonsList;
 }
 
-export default async function Home() {
-  const pokemons = await getPokemonsList();
+export default function Home() {
+  const [actualPage, setActualPage] = useState(1);
+  const [pokemons, setPokemons] = useState<PokemonItem[]>([]);
+
+  useEffect(() => {
+    async function loadPokemons() {
+      const pokemonsList = await getPokemonsList(actualPage);
+      setPokemons(pokemonsList);
+    }
+    loadPokemons();
+  }, [actualPage]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between py-24">
-      <ul className='w-full grid grid-cols-[repeat(auto-fit,208px)] justify-center gap-8'>
-        {pokemons.map((pokemon: PokemonItem) =>
-          <CardShine key={pokemon.species.name} show={true} pokemon={pokemon} initialReverse />
-        )}
-      </ul>
+        <ul className='w-full grid grid-cols-[repeat(auto-fit,208px)] justify-center gap-8'>
+        <Suspense fallback={<p className='text-black'>Loading cards...</p>}>
+          {pokemons.map((pokemon: PokemonItem) =>
+            <CardShine key={pokemon.species.name} show={true} pokemon={pokemon} initialReverse />
+          )}
+        </Suspense>
+        </ul>
+      <Pagination actualPage={actualPage} setActualPage={setActualPage} />
     </main>
   );
 }
