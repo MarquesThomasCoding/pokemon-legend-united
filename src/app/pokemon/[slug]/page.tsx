@@ -1,7 +1,4 @@
-"use client"
-
-import { useEffect, useState } from 'react';
-import { usePokemonStore, PokemonItem } from '../../../store/PokemonStore';
+import { CardShine } from '@/app/components/CardShine';
 import Link from 'next/link';
 
 async function getSpecificPokemon(name: string) {
@@ -10,44 +7,44 @@ async function getSpecificPokemon(name: string) {
     return data.data;
 }
 
-export default function Page({ params }: { params: Promise<{ slug: string }> }) {
-    const { dispatch } = usePokemonStore();
-    
-    const [slug, setSlug] = useState<string>('');
+export async function generateStaticParams() {
+    const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=100');
+    const data = await res.json();
+    return data.results.map((pokemon: { name: string }) => ({
+        slug: pokemon.name,
+    }));
+}
 
-    useEffect(() => {
-        params.then(p => setSlug(p.slug));
-    }, [params]);
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+    const pokemon = await getSpecificPokemon(params.slug);
+    return {
+        title: pokemon.species.name,
+    };
+}
 
-    const pokemon = getSpecificPokemon(slug);
-
-    const handleAddPokemon = async () => {
-        const newPokemon: PokemonItem = {
-            id: (await pokemon).id,
-            image: (await pokemon).image,
-            species: {
-                name: (await pokemon).species.name,
-                url: (await pokemon).species.url,
-            },
-            types: [
-                {
-                    type: {
-                        name: (await pokemon).types[0].type.name,
-                    },
-                },
-            ],
-            rarity: (await pokemon).rarity,
-            times: 1,
-        };
-    
-        dispatch({ type: 'ADD_POKEMON', payload: newPokemon });
-      };
+export default async function Page({ params }: { params: { slug: string } }) {
+    const pokemon = await getSpecificPokemon(params.slug);
     
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between p-24">
-            <h1>{slug}</h1>
-            <button onClick={handleAddPokemon}>Add {slug}</button>
-            <Link href="/pokemon">Go to collection</Link>
+        <main className="flex flex-col items-center p-24 gap-4 text-black">
+            <div className="flex m-auto">
+                <CardShine pokemon={pokemon} show initialReverse />
+                <ul className="grid grid-cols-2 justify-center p-8">
+                    <li className='flex justify-between p-4 gap-8 border-b-2 border-white'>HP: <span className="text-xl font-impact">{pokemon.stats[0].base_stat}</span></li>
+                    <li className='flex justify-between p-4 gap-8 border-b-2 border-white'>Attack: <span className="text-xl font-impact">{pokemon.stats[1].base_stat}</span></li>
+                    <li className='flex justify-between p-4 gap-8 border-b-2 border-white'>Defense: <span className="text-xl font-impact">{pokemon.stats[2].base_stat}</span></li>
+                    <li className='flex justify-between p-4 gap-8 border-b-2 border-white'>Special Attack: <span className="text-xl font-impact">{pokemon.stats[3].base_stat}</span></li>
+                    <li className='flex justify-between p-4 gap-8 border-b-2 border-white'>Special Defense: <span className="text-xl font-impact">{pokemon.stats[4].base_stat}</span></li>
+                    <li className='flex justify-between p-4 gap-8 border-b-2 border-white'>Speed: <span className="text-xl font-impact">{pokemon.stats[5].base_stat}</span></li>
+                    <li className='flex justify-between p-4 gap-8'>Rarity: <span className="text-xl font-impact">{pokemon.rarity}</span></li>
+                </ul>
+            </div>
+            <Link href="/collection" className='relative flex items-center justify-center p-4 text-white'>
+                <svg className="absolute -z-10 mt-2 w-auto h-full" viewBox="0 0 105 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M104.5 0.5H10.3047L0.5 23.2114V44.5H56.9131H93.8282L104.5 19.9635V0.5Z" fill="black" stroke="black"/>
+                </svg>
+                Collection
+            </Link>
         </main>
     );
 }

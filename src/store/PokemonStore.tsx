@@ -5,6 +5,12 @@ import { createContext, useReducer, ReactNode, useContext } from 'react';
 export interface PokemonItem {
     id: number;
     image: string;
+    stats: {
+        base_stat: number;
+        stat: {
+            name: string;
+        };
+    }[];
     species: {
         name: string;
         url: string;
