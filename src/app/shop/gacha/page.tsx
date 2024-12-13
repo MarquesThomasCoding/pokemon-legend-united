@@ -10,13 +10,13 @@ import Loader from "@/app/components/Loader";
 import { useEffect, useState } from 'react';
 
 async function getSpecificPokemon(name: string) {
-    const response = await fetch("http://localhost:3000/api/pokemons/" + name);
+    const response = await fetch("/api/pokemons/" + name);
     const data = await response.json();
     return data.data;
   }
 
 const getRandomCards = async (count: number) => {
-    const response = await fetch("http://localhost:3000/api/pokemons/random?limit=" + count);
+    const response = await fetch("/api/pokemons/random?limit=" + count);
     const data = await response.json();
     const pokemonsList: PokemonItem[] = [];
 

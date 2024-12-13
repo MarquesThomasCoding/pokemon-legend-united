@@ -9,13 +9,13 @@ import HabitatFilter from '@/app/components/HabitatFilter';
 import TypeFilter from '@/app/components/TypeFilter';
 
 async function getPokemonItem(name: string) {
-  const response = await fetch("http://localhost:3000/api/pokemons/" + name);
+  const response = await fetch("/api/pokemons/" + name);
   const data = await response.json();
   return data.data;
 }
 
 async function getPokemonsList(page: number) {
-  const response = await fetch("http://localhost:3000/api/pokemons" + `?page=${page}`);
+  const response = await fetch("/api/pokemons" + `?page=${page}`);
   const data = await response.json();
   const pokemonsList: PokemonItem[] = [];
 
