@@ -2,9 +2,16 @@ import { CardShine } from '@/app/components/CardShine';
 import Link from 'next/link';
 
 async function getSpecificPokemon(name: string) {
-    const response = await fetch("http://localhost:3000/api/pokemons/" + name);
-    const data = await response.json();
-    return data.data;
+    const resPokemon = await fetch('https://pokeapi.co/api/v2/pokemon/' + name);
+    const data = await resPokemon.json();
+    const resSpeciesPoke = await fetch('https://pokeapi.co/api/v2/pokemon-species/' + name);
+    const dataSpeciesPoke = await resSpeciesPoke.json();
+    
+    data.image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${data.id}.png`;
+    data.rarity = dataSpeciesPoke.capture_rate;
+    data.habitat = {name: dataSpeciesPoke.habitat.name};
+
+    return data;
 }
 
 export async function generateStaticParams() {
@@ -15,15 +22,15 @@ export async function generateStaticParams() {
     }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-    const pokemon = await getSpecificPokemon(params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+    const pokemon = await getSpecificPokemon((await params).slug);
     return {
         title: pokemon.species.name,
     };
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
-    const pokemon = await getSpecificPokemon(params.slug);
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+    const pokemon = await getSpecificPokemon((await params).slug);
     
     return (
         <main className="flex flex-col items-center p-24 gap-4 text-black">
@@ -37,7 +44,6 @@ export default async function Page({ params }: { params: { slug: string } }) {
                     <li className='flex justify-between p-4 gap-8 border-b-2 border-white'>Special Defense: <span className="text-xl font-impact">{pokemon.stats[4].base_stat}</span></li>
                     <li className='flex justify-between p-4 gap-8 border-b-2 border-white'>Speed: <span className="text-xl font-impact">{pokemon.stats[5].base_stat}</span></li>
                     <li className='flex justify-between p-4 gap-8'>Rarity: <span className="text-xl font-impact">{pokemon.rarity}</span></li>
-                    <li className='flex justify-between p-4 gap-8'>Region: <span className="text-xl font-impact">{pokemon.habitat.name}</span></li>
                 </ul>
             </div>
             <Link href="/collection" className='relative flex items-center justify-center p-4 text-white'>
