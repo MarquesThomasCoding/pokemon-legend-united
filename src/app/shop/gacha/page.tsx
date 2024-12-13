@@ -46,7 +46,7 @@ export default function Page() {
 
     return (
         <>
-            <section className="grid grid-cols-5 gap-4 justify-items-center px-6 pt-6">
+            <section className="grid grid-cols-[repeat(auto-fit,208px)] gap-4 justify-items-center px-6 pt-6">
                 <Suspense fallback={<Loader />}>
                     {loading ? <Loader /> : randomCards.map((card: PokemonItem) => (
                         <CardShine key={card.id} pokemon={card} show={true} initialReverse={false} canSelect />

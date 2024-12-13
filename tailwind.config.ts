@@ -22,6 +22,9 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      animation: {
+        pokeball: 'animate-pokeball 1s infinite ease-in-out',
+      },
     },
   },
   plugins: [],
