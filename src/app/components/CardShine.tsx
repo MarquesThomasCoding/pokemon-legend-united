@@ -60,7 +60,7 @@ export const CardShine = ({ pokemon, show, initialReverse, canSelect}: { pokemon
                         {pokemon.rarity < 10 && <Image className="w-4 h-4" src="/images/star.svg" alt="Star" width={24} height={24} />}
                     </div>
                 </div>
-                <p className="flex items-center justify-center m-2 p-2 w-8 h-8 rounded-full bg-gray-700 bg-opacity-50 justify-self-end font-bold"><span className="text-xs">x</span>{pokemon.times}</p>
+                {pokemon.times > 1 && <p className="flex items-center justify-center m-2 p-2 w-8 h-8 rounded-full bg-gray-700 bg-opacity-50 justify-self-end font-bold"><span className="text-xs">x</span>{pokemon.times}</p>}
                 <Link href="/pokemon/[id]" as={`/pokemon/${pokemon.id}`} className="p-2 rounded-se-xl rounded-es-xl h-fit hover:bg-gray-700 hover:bg-opacity-50 transition-all duration-150 justify-self-end"><EyeIcon /></Link>
                 <div className="pointer-events-none overflow-hidden rounded-xl absolute top-0 left-0 w-full h-full after:absolute after:top-0 after:translate-x-full hover:after:-translate-x-full after:transition-all after:duration-1000 after:w-full after:h-full after:bg-gradient-to-r after:from-transparent after:via-white after:to-transparent after:opacity-40"></div>
                 <Image className="absolute bottom-3 justify-self-center max-w-none w-auto h-4/5 drop-shadow-[4px_4px_4px_#111] pointer-events-none" src={pokemon.image} alt="Pokemon" width={320} height={320} />
