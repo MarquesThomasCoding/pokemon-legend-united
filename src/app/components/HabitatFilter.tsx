@@ -5,7 +5,7 @@ interface HabitatFilterProps {
 
 export default function HabitatFilter({ filteredRegion, setFilteredRegion }: HabitatFilterProps) {
     return (
-        <select className="p-4 rounded-lg border-black border-2 font-impact tracking-wide" name="region" id="region" value={filteredRegion} onChange={(e) => setFilteredRegion(e.target.value)}>
+        <select className="p-4 rounded-lg border-black border-2 text-black font-impact tracking-wide" name="region" id="region" value={filteredRegion} onChange={(e) => setFilteredRegion(e.target.value)}>
             <option value="all">All ???</option>
             <option value="cave">Cave 🪨🪨🪨</option>
             <option value="forest">Forest 🌲🌲🌲</option>

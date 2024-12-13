@@ -5,7 +5,7 @@ interface TypeFilterProps {
 
 export default function TypeFilter({ filteredType, setFilteredType }: TypeFilterProps) {
     return (
-        <select  className="p-4 rounded-lg border-black border-2 font-impact tracking-wide" name="type" id="type" value={filteredType} onChange={(e) => setFilteredType(e.target.value)}>
+        <select  className="p-4 rounded-lg border-black text-black border-2 font-impact tracking-wide" name="type" id="type" value={filteredType} onChange={(e) => setFilteredType(e.target.value)}>
             <option value="all">All</option>
             <option value="normal">Normal</option>
             <option value="fire">Fire</option>
