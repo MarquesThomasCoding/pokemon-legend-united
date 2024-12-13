@@ -45,8 +45,8 @@ export default function Home() {
   }, [actualPage]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between py-24">
-        <div>
+    <section className="flex min-h-screen flex-col items-center justify-between gap-6 py-24">
+        <div className='flex gap-4'>
           <HabitatFilter filteredRegion={filteredRegion} setFilteredRegion={setFilteredRegion} />
           <TypeFilter filteredType={filteredType} setFilteredType={setFilteredType} />
         </div>
@@ -58,6 +58,6 @@ export default function Home() {
         </Suspense>
         </ul>
       <Pagination actualPage={actualPage} setActualPage={setActualPage} />
-    </main>
+    </section>
   );
 }

@@ -6,9 +6,9 @@ export default function RootLayout({
     children: React.ReactNode;
   }>) {
     return (
-        <section className="mb-12">
+        <main className="mb-12 pl-4">
             {children}
             <ChooseCollection />
-        </section>
+        </main>
     );
   }

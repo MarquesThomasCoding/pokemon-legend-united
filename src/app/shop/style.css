@@ -1,0 +1,11 @@
+@keyframes animate-pokeball {
+  0% {
+    transform: rotate(-30deg) translateX(-10%);
+  }
+  50% {
+    transform: rotate(30deg) translateX(10%);
+  }
+  100% {
+    transform: rotate(-30deg) translateX(-10%);
+  }
+}
