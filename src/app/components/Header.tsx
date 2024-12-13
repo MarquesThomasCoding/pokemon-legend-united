@@ -8,8 +8,8 @@ export default function Header() {
     const username = useSelector((state: RootState) => state.user.username);
     const usercoins = useSelector((state: RootState) => state.user.pokecoins);
     return (
-        <header className="px-40 pt-6 flex items-center justify-between">
-            <div className="flex items-center gap-5 font-pokemonSolid">
+        <header className="sticky top-0 bg-white z-10 lg:px-40 pt-6 flex items-center justify-between">
+            <div className="flex flex-wrap items-center gap-5 font-pokemonSolid">
                 <Link href="/">
                     <h1 className="text-4xl text-black tracking-widest">{username}</h1>
                 </Link>
@@ -21,16 +21,17 @@ export default function Header() {
                 </div>
             </div>
             <div className="flex items-center gap-20">
-                <div className="flex items-center gap-5 rounded-full border-2 py-5 px-10 font-impact text-4xl bg-slate-400">
+                <div className="flex items-center gap-5 rounded-full border-2 py-5 px-2 md:px-10 font-impact text-4xl bg-slate-400">
                     <Image
                         src="/images/pokeball.png"
                         alt="Poke Coins icons"
                         width={50}
                         height={50}
+                        className="w-10 h-10"
                     />
-                    {usercoins}
+                    <span>{usercoins}</span>
                 </div>
-                <Link href="/settings">
+                <Link href="/settings" className="hover:scale-110 transition-300 min-w-6 min-h-6">
                     <Image
                         src="/images/settings-icon.png"
                         alt="Settings icon"
