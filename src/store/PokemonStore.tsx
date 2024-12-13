@@ -52,14 +52,14 @@ const pokemonReducer = (state: State, action: Action): State => {
     case 'ADD_POKEMON':
       const existingPokemon = state.collection.find((p) => p.id === action.payload.id);
       if (existingPokemon) {
-      return {
-        ...state,
-        collection: state.collection.map((p) =>
-        p.id === action.payload.id ? { ...p, times: p.times + 1 } : p
-        ),
-      };
+        return {
+          ...state,
+          collection: state.collection.map((p) =>
+            p.id === action.payload.id ? { ...p, times: p.times + 1 } : p
+          ),
+        };
       } else {
-      return { ...state, collection: [...state.collection, { ...action.payload, times: 1 }] };
+        return { ...state, collection: [...state.collection, { ...action.payload, times: 1 }] };
       }
     case 'REMOVE_POKEMON':
       return {

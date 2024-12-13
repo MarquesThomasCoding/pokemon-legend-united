@@ -9,7 +9,7 @@ export default function Page() {
 
   return (
     <div className='text-black'>
-        <h1>Your Pokémon Collection</h1>
+        <h1 className='m-4 text-center text-3xl font-pokemonHollow font-bold'>Your Pokémon Collection</h1>
         <Suspense fallback={<p className='text-black'>Loading cards...</p>}>
             <ul className='w-full grid grid-cols-[repeat(auto-fit,208px)] justify-center gap-8'>
                 {state.collection.map((pokemon) => (
