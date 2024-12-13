@@ -37,12 +37,16 @@ const usersSlice = createSlice({
         switch (state.redeemCode) {
           case 'Moltres666':
             state.pokecoins += 500;
+            break;
           case 'Reshiram777':
             state.pokecoins += 777;
+            break;
           case 'Pikachu131224':
             state.pokecoins += 20;
+            break;
           case 'Voltorbe0901':
             state.pokecoins += 11;
+            break;
         }
     },
     setGacha: (state, action: PayloadAction<number>) => {

@@ -37,7 +37,7 @@ export default function Page() {
             type="text" 
             name="code" 
             id="code" 
-            value= {code}
+            value={code}
             onChange={(e) => setCode(e.target.value)} 
           />
         </div>
