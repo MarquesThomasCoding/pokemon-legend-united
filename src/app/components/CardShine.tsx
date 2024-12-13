@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { PokemonItem } from "../../store/PokemonStore";
 import { usePokemonStore } from "../../store/PokemonStore";
