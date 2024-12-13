@@ -9,10 +9,11 @@ export async function GET(request: Request, { params }: { params: Promise<{ slug
     const resPokemon = await fetch('https://pokeapi.co/api/v2/pokemon/' + slug);
     const data = await resPokemon.json();
     data.image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${data.id}.png`;
-    const resRarity = await fetch('https://pokeapi.co/api/v2/pokemon-species/' + slug);
-    const dataRarity = await resRarity.json();
+    const resSpeciesPoke = await fetch('https://pokeapi.co/api/v2/pokemon-species/' + slug);
+    const dataSpeciesPoke = await resSpeciesPoke.json();
 
-    data.rarity = dataRarity.capture_rate;
+    data.rarity = dataSpeciesPoke.capture_rate;
+    data.habitat = dataSpeciesPoke.habitat.name;
 
     return Response.json({ data });
 }

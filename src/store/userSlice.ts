@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { PokemonItem } from './PokemonStore'
 
 interface User {
   username: string
@@ -6,7 +7,7 @@ interface User {
   redeemCode : string
   gacha: number
   cries: boolean
-
+  pokemonTeams: PokemonItem[]
 }
 
 const initialState: User = {
@@ -15,6 +16,7 @@ const initialState: User = {
   redeemCode: '',
   gacha: 0,
   cries: false,
+  pokemonTeams: []
 }
 
 const usersSlice = createSlice({
@@ -49,8 +51,17 @@ const usersSlice = createSlice({
     setPokemonCries: (state, action: PayloadAction<boolean>) => {
         state.cries = action.payload;
     },
+    addPokemonsTeam: (state, action: PayloadAction<PokemonItem>) => {
+        state.pokemonTeams.push(action.payload);
+    },
+    removePokemonTeam: (state, action: PayloadAction<PokemonItem>) => {
+        state.pokemonTeams = state.pokemonTeams.filter(team => team.id !== action.payload.id);
+    },  
+    setPokemonTeams : (state, action: PayloadAction<PokemonItem[]>) => {
+        state.pokemonTeams = action.payload;
+    },
   }
 })
 
-export const { setUsername, reduceCoins, addCoins, redeemCode, setGacha, setPokemonCries } = usersSlice.actions
+export const { setUsername, reduceCoins, addCoins, redeemCode, setGacha, setPokemonCries, addPokemonsTeam, removePokemonTeam, setPokemonTeams } = usersSlice.actions
 export default usersSlice.reducer

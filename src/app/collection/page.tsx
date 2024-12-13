@@ -13,7 +13,7 @@ export default function Page() {
         <Suspense fallback={<p className='text-black'>Loading cards...</p>}>
             <ul className='w-full grid grid-cols-[repeat(auto-fit,208px)] justify-center gap-8'>
                 {state.collection.map((pokemon) => (
-                <CardShine key={pokemon.id} pokemon={pokemon} show initialReverse />
+                  <CardShine key={pokemon.id} pokemon={pokemon} show initialReverse setTypes="all" setRegion="all" />
                 ))}
             </ul>
         </Suspense>

@@ -19,6 +19,9 @@ export interface PokemonItem {
     cries: {
       latest : string;
     };
+    habitat: {
+      name: string;
+    };
 }
 
 // Définir le type d'action pour le reducer

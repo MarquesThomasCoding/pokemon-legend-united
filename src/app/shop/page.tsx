@@ -47,7 +47,7 @@ export default function Page() {
                 <div className='w-full flex justify-center gap-4 pt-6'>
                     <Link 
                         onClick={(e)=> handleGacha(1, e)} 
-                        href="/shop/gacha?amount=" 
+                        href="/shop/gacha?amount=1" 
                         className='w-fit h-full p-6 bg-blue-500 rounded-full flex items-center justify-center'>
                         Gacha x 1
                     </Link>
@@ -59,7 +59,7 @@ export default function Page() {
                     </Link>
                     <Link 
                         onClick={(e)=> handleGacha(50, e)} 
-                        href="/shop/gacha?amout=50" 
+                        href="/shop/gacha?amount=50" 
                         className='w-fit h-full p-6 bg-blue-500 rounded-full flex items-center justify-center'>
                         Gacha x 50
                     </Link>
