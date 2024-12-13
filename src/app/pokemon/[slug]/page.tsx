@@ -37,6 +37,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
                     <li className='flex justify-between p-4 gap-8 border-b-2 border-white'>Special Defense: <span className="text-xl font-impact">{pokemon.stats[4].base_stat}</span></li>
                     <li className='flex justify-between p-4 gap-8 border-b-2 border-white'>Speed: <span className="text-xl font-impact">{pokemon.stats[5].base_stat}</span></li>
                     <li className='flex justify-between p-4 gap-8'>Rarity: <span className="text-xl font-impact">{pokemon.rarity}</span></li>
+                    <li className='flex justify-between p-4 gap-8'>Region: <span className="text-xl font-impact">{pokemon.habitat.name}</span></li>
                 </ul>
             </div>
             <Link href="/collection" className='relative flex items-center justify-center p-4 text-white'>

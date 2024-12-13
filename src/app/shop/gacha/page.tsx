@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { Suspense } from "react";
 import Loader from "@/app/components/Loader";
+import { useEffect, useState } from 'react';
 
 async function getSpecificPokemon(name: string) {
     const response = await fetch("http://localhost:3000/api/pokemons/" + name);
@@ -31,15 +32,25 @@ const getRandomCards = async (count: number) => {
 
 export default function Page() {
     const gacha = useSelector((state: RootState) => state.user.gacha);
-    const randomCards = getRandomCards(gacha);
+    const [randomCards, setRandomCards] = useState<PokemonItem[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchRandomCards = async () => {
+            const cards = await getRandomCards(gacha);
+            setRandomCards(cards);
+            setLoading(false);
+        };
+        fetchRandomCards();
+    }, [gacha]);
 
     return (
         <>
             <section className="grid grid-cols-5 gap-4 justify-items-center px-6 pt-6">
                 <Suspense fallback={<Loader />}>
-                {randomCards.then(pokemons => pokemons.map((card: PokemonItem) => (
-                    <CardShine key={card.id} pokemon={card} show={true} initialReverse={false} canSelect />
-                )))}
+                    {loading ? <Loader /> : randomCards.map((card: PokemonItem) => (
+                        <CardShine key={card.id} pokemon={card} show={true} initialReverse={false} canSelect />
+                    ))}
                 </Suspense>
             </section>
             <div className="flex items-center justify-center py-6">

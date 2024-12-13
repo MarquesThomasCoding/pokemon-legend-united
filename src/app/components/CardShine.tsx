@@ -5,16 +5,13 @@ import Image from "next/image";
 import { PokemonItem } from "../../store/PokemonStore";
 import { usePokemonStore } from "../../store/PokemonStore";
 import { typesGradients } from "@/utils/gradients";
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
 import Link from "next/link";
 import { EyeIcon } from "lucide-react";
 
-export const CardShine = ({ pokemon, show, initialReverse, canSelect, setTypes, setRegion}: { pokemon: PokemonItem, show: boolean, initialReverse?: boolean, canSelect?: boolean, setTypes: string, setRegion: string}) => {
+export const CardShine = ({ pokemon, show, initialReverse, canSelect}: { pokemon: PokemonItem, show: boolean, initialReverse?: boolean, canSelect?: boolean}) => {
     const { state } = usePokemonStore();
     const isOwned = state.collection.some(item => item.id === pokemon.id);
     const [reversed, setReversed] = useState(initialReverse);
-    const pokemonCries = useSelector((state: RootState) => state.user.cries);
     const { dispatch } = usePokemonStore();
     
     const reverseCard = () => {
@@ -55,21 +52,12 @@ export const CardShine = ({ pokemon, show, initialReverse, canSelect, setTypes, 
     const handleRevealAndAddPokemon = () => {
         setTimeout(() => {
             reverseCard();
-            criesPokemon();
             handleAddPokemon();
-        }, 1000);
-    }
-    
-    const criesPokemon = () => {
-        if(pokemonCries){
-            const audio = new Audio(pokemon.cries.latest);
-            audio.play();
-        }
+        }, 500);
     }
 
     return (
-        <div className={"[perspective:1000px] [transform-style:preserve-3d] transition-all duration-1000 " + (reversed?"":" [transform:rotateY(180deg)] ") + (show?"flex ":"hidden ") + " relative w-52 h-80"} 
-        style={{display: (setTypes==="all" || setTypes===pokemon.types[0].type.name || setTypes===pokemon.types[1]?.type.name) ? "": "none !important"}}
+        <div className={"[perspective:1000px] [transform-style:preserve-3d] transition-all duration-1000 " + (reversed?"":" [transform:rotateY(180deg)] ") + (show?"flex ":"hidden ") + " relative w-52 h-80"}
             onLoad={() => {
                 if(canSelect) handleRevealAndAddPokemon();
             }}>

@@ -13,7 +13,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ slug
     const dataSpeciesPoke = await resSpeciesPoke.json();
 
     data.rarity = dataSpeciesPoke.capture_rate;
-    data.habitat = dataSpeciesPoke.habitat.name;
+    data.habitat = {name: dataSpeciesPoke.habitat.name};
 
     return Response.json({ data });
 }
