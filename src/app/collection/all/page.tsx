@@ -8,12 +8,10 @@ import { useState, useEffect, Suspense } from 'react';
 import HabitatFilter from '@/app/components/HabitatFilter';
 import TypeFilter from '@/app/components/TypeFilter';
 import { PokemonFactory } from '@/factory/pokemonFactory';
+import { PokemonCache } from '@/singleton/PokemonCache';
 
-async function getPokemonItem(name: string) {
-  const response = await fetch("/api/pokemons/" + name);
-  const data = await response.json();
-  return data.data;
-}
+const getPokemonItem = (name: string): Promise<PokemonItem> =>
+  PokemonCache.getInstance().fetch(name);
 
 async function getPokemonsList(page: number) {
   const response = await fetch("/api/pokemons" + `?page=${page}`);

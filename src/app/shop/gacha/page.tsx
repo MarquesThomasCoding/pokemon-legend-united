@@ -11,12 +11,10 @@ import Loader from "@/app/components/Loader";
 import { GachaContext, GachaStrategyId } from '@/types/gacha';
 import { bannersById, defaultBannerId } from '@/config/banners';
 import { PokemonFactory } from "@/factory/pokemonFactory";
+import { PokemonCache } from '@/singleton/PokemonCache';
 
-async function fetchById(idOrName: number | string): Promise<PokemonItem> {
-    const response = await fetch(`/api/pokemons/${idOrName}`);
-    const data = await response.json();
-    return data.data;
-}
+const fetchById = (idOrName: number | string): Promise<PokemonItem> =>
+    PokemonCache.getInstance().fetch(idOrName);
 
 async function fetchPool(count: number): Promise<PokemonItem[]> {
     if (count <= 0) return [];
