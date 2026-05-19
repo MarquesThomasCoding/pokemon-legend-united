@@ -1,17 +1,6 @@
 import { CardShine } from '@/app/components/CardShine';
 import Link from 'next/link';
-import { PokemonAdapter, RawPokemonApi, RawSpeciesApi } from '@/adapter/PokemonAdapter';
-
-async function getSpecificPokemon(name: string) {
-    const resPokemon = await fetch('https://pokeapi.co/api/v2/pokemon/' + name);
-    const rawPokemon: RawPokemonApi = await resPokemon.json();
-
-    const resSpecies = await fetch('https://pokeapi.co/api/v2/pokemon-species/' + name);
-    const rawSpecies: RawSpeciesApi = await resSpecies.json();
-
-    // L'Adapter transforme les données brutes en PokemonItem
-    return PokemonAdapter.adapt(rawPokemon, rawSpecies);
-}
+import { PokeApiFacade } from '@/facade/PokeApiFacade';
 
 export async function generateStaticParams() {
     const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=100');
@@ -22,14 +11,14 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-    const pokemon = await getSpecificPokemon((await params).slug);
+    const pokemon = await PokeApiFacade.getPokemonDetails((await params).slug);
     return {
         title: pokemon.species.name,
     };
 }
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
-    const pokemon = await getSpecificPokemon((await params).slug);
+    const pokemon = await PokeApiFacade.getPokemonDetails((await params).slug);
     
     return (
         <main className="flex flex-col items-center p-24 gap-4 text-black">
