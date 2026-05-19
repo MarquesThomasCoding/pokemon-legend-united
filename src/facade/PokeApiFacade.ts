@@ -3,6 +3,11 @@ import { withPowerLevel, withLegendary, withShiny } from "@/decorator/pokemonDec
 import { PokemonItem } from "@/store/PokemonStore";
 
 
+export interface SimplePokemonApi {
+    name: string;
+    url: string;
+}
+
 export class PokeApiFacade {
    
     static async getPokemonDetails(slug: string): Promise<PokemonItem> {
@@ -15,5 +20,18 @@ export class PokeApiFacade {
         const data = PokemonAdapter.adapt(rawPokemon, rawSpecies);
 
         return data;
+    }
+
+  
+    static async getPokemonsPage(page: number) {
+        const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=24&offset=' + (page - 1) * 24);
+        return await res.json();
+    }
+
+   
+    static async getRandomPokemons(limit: number): Promise<SimplePokemonApi[]> {
+        const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=100&offset=0');
+        const data = await res.json();
+        return data.results.sort(() => Math.random() - 0.5).slice(0, limit);
     }
 }
