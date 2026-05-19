@@ -14,7 +14,7 @@ import { PokemonFactory } from "@/factory/pokemonFactory";
 import { PokemonCache } from '@/singleton/PokemonCache';
 
 const fetchById = (idOrName: number | string): Promise<PokemonItem> =>
-    PokemonCache.getInstance().fetch(idOrName);
+    PokemonCache.getInstance().getOrFetch(idOrName, (id) => fetch(`/api/pokemons/${id}`).then(r => r.json()).then(payload => payload.data));
 
 async function fetchPool(count: number): Promise<PokemonItem[]> {
     if (count <= 0) return [];

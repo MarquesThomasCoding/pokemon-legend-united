@@ -11,7 +11,7 @@ import { PokemonFactory } from '@/factory/pokemonFactory';
 import { PokemonCache } from '@/singleton/PokemonCache';
 
 const getPokemonItem = (name: string): Promise<PokemonItem> =>
-  PokemonCache.getInstance().fetch(name);
+  PokemonCache.getInstance().getOrFetch(name, (id) => fetch(`/api/pokemons/${id}`).then(r => r.json()).then(payload => payload.data));
 
 async function getPokemonsList(page: number) {
   const response = await fetch("/api/pokemons" + `?page=${page}`);
