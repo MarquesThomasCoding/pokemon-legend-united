@@ -53,7 +53,7 @@ export default function Page() {
         };
         fetchRandomCards();
         return () => { cancelled = true; };
-    }, [gacha, strategyId, dispatch, initialPity]);
+    }, [gacha, strategyId]);
 
     return (
         <>
