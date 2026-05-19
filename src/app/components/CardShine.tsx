@@ -6,15 +6,29 @@ import { PokemonItem } from "@/types/pokemon";
 import { usePokemonStore } from "../../store/PokemonStore";
 import { typesGradients } from "@/utils/gradients";
 import Link from "next/link";
-import { EyeIcon } from "lucide-react";
+import { EyeIcon, Plus } from "lucide-react";
 import { DecoratedPokemon } from "@/decorator/pokemonDecorator";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/store/store";
+import { addPokemonsTeam } from "@/store/userSlice";
+import { MAX_TEAM_SIZE } from "./TeamSlider";
 
-export const CardShine = ({ pokemon, show, initialReverse, canSelect}: { pokemon: PokemonItem | DecoratedPokemon, show: boolean, initialReverse?: boolean, canSelect?: boolean}) => {
+export const CardShine = ({ pokemon, show, initialReverse, canSelect, canAddToTeam}: { pokemon: PokemonItem | DecoratedPokemon, show: boolean, initialReverse?: boolean, canSelect?: boolean, canAddToTeam?: boolean}) => {
     const { state, dispatch } = usePokemonStore();
+    const reduxDispatch = useDispatch();
+    const pokemonTeams = useSelector((s: RootState) => s.user.pokemonTeams);
     const isOwned = state.collection.some(item => item.id === pokemon.id && !!item.isShiny === !!(pokemon as DecoratedPokemon).isShiny);
+    const isInTeam = pokemonTeams.some(t => t.id === pokemon.id && !!t.isShiny === !!(pokemon as DecoratedPokemon).isShiny);
+    const teamFull = pokemonTeams.length >= MAX_TEAM_SIZE;
     const [reversed, setReversed] = useState(initialReverse);
     const [added, setAdded] = useState(false);
     const [canAddCard, setCanAddCard] = useState(canSelect);
+
+    const handleAddToTeam = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (isInTeam || teamFull) return;
+        reduxDispatch(addPokemonsTeam(pokemon));
+    };
 
     const reverseCard = () => {
         setReversed(!reversed);
@@ -55,6 +69,17 @@ export const CardShine = ({ pokemon, show, initialReverse, canSelect}: { pokemon
                 <Link href="/pokemon/[id]" as={`/pokemon/${pokemon.id}`} className="p-2 rounded-se-xl rounded-es-xl h-fit hover:bg-gray-700 hover:bg-opacity-50 transition-all duration-150 justify-self-end"><EyeIcon /></Link>
                 <div className="pointer-events-none overflow-hidden rounded-xl absolute top-0 left-0 w-full h-full after:absolute after:top-0 after:translate-x-full hover:after:-translate-x-full after:transition-all after:duration-1000 after:w-full after:h-full after:bg-gradient-to-r after:from-transparent after:via-white after:to-transparent after:opacity-40"></div>
                 <Image className="absolute bottom-3 justify-self-center max-w-none w-auto h-4/5 drop-shadow-[4px_4px_4px_#111] pointer-events-none" src={pokemon.image} alt="Pokemon" width={320} height={320} />
+                {canAddToTeam && (
+                    <button
+                        onClick={handleAddToTeam}
+                        disabled={isInTeam || teamFull}
+                        aria-label={isInTeam ? "Already in team" : teamFull ? "Team is full" : "Add to team"}
+                        title={isInTeam ? "Already in team" : teamFull ? "Team is full (6/6)" : "Add to team"}
+                        className={"absolute bottom-2 left-2 z-20 flex items-center justify-center w-10 h-10 rounded-full border-2 border-black shadow-md transition " + (isInTeam ? "bg-green-500 text-white cursor-not-allowed" : teamFull ? "bg-gray-400 text-white cursor-not-allowed" : "bg-yellow-400 text-black hover:scale-110 hover:bg-yellow-300")}
+                    >
+                        <Plus size={22} strokeWidth={3} />
+                    </button>
+                )}
             </div>
             <Link href="">Voir les stats</Link>
         </div>

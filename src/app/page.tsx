@@ -1,7 +1,12 @@
 import Navbar from './components/Navbar';
+import TeamSlider from './components/TeamSlider';
+
 export default async function Home() {
   return (
-    <main className="flex flex-col items-center justify-between gap-24 py-24">
+    <main className="relative flex items-center justify-start gap-24 px-24 h-[calc(100vh-8rem)] overflow-hidden">
+      <section>
+        <TeamSlider />
+      </section>
       <section>
         <Navbar />
       </section>

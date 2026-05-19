@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Navbar() {
     return(
-        <div className='w-[700px] right-[-100px] flex flex-col gap-20 absolute'>
+        <div className='w-[700px] right-[-100px] top-1/2 -translate-y-1/2 flex flex-col gap-20 absolute'>
           <div className='flex gap-10 items-center rounded-full px-24 py-6 border-2 font-impact text-5xl bg-slate-500 rotate-[-8.5deg] hover:-translate-x-4 hover:scale-105 hover:translate-y-4 transition-all duration-300'>
             <Link href="/shop" className='flex gap-10 items-center'>
               <Image 
