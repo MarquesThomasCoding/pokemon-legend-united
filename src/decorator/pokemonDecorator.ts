@@ -12,6 +12,7 @@ const DEFAULT_LEGENDARY_IDS = [144, 145, 146, 150, 151];
 export function withPowerLevel(pokemon: PokemonItem): DecoratedPokemon {
   let totalPower = 0;
   if (pokemon.stats) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
      const { hp, attack, defense, speed } = pokemon.stats as any; 
      totalPower = (hp || 0) + (attack || 0) + (defense || 0) + (speed || 0);
   }
