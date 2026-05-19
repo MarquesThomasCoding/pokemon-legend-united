@@ -6,9 +6,9 @@ export class PokemonFactory {
   static createStandard(basePokemon: PokemonItem): DecoratedPokemon {
     const stars = PokemonFactory.calculateStars(basePokemon.rarity);
     
-    const decorators: Array<(p: any) => DecoratedPokemon> = [
+    const decorators: Array<(p: DecoratedPokemon) => DecoratedPokemon> = [
       withPowerLevel, 
-      (p: PokemonItem) => withStars(p, stars)
+      (p: DecoratedPokemon) => withStars(p, stars)
     ];
 
     if (stars === 5) decorators.push(withLegendary);

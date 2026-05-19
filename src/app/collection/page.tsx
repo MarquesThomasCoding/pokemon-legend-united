@@ -1,5 +1,6 @@
 "use client"
 
+import { PokemonItem } from '@/types/pokemon';
 import { usePokemonStore } from '../../store/PokemonStore';
 import { CardShine } from '../components/CardShine';
 import { Suspense } from 'react';
@@ -13,7 +14,7 @@ export default function Page() {
         <Suspense fallback={<p className='text-black'>Loading cards...</p>}>
             <ul className='w-full grid grid-cols-[repeat(auto-fit,208px)] justify-center gap-8'>
                 {state.collection.map((pokemon) => (
-                  <CardShine key={`${pokemon.id}-${(pokemon as any).isShiny ? 'shiny' : 'normal'}`} pokemon={pokemon} show initialReverse />
+                  <CardShine key={`${pokemon.id}-${(pokemon as PokemonItem).isShiny ? 'shiny' : 'normal'}`} pokemon={pokemon} show initialReverse />
                 ))}
             </ul>
         </Suspense>
