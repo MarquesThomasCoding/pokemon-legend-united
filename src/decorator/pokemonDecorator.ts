@@ -1,4 +1,4 @@
-import type { PokemonItem } from "@/store/PokemonStore";
+import type { PokemonItem } from "@/types/pokemon";
 
 export interface DecoratedPokemon extends PokemonItem {
   powerLevel?: number;

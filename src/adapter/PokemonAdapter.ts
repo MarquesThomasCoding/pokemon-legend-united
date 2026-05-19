@@ -1,5 +1,4 @@
-import { PokemonItem } from "@/store/PokemonStore";
-
+import { PokemonItem } from "@/types/pokemon";
 
 export interface RawPokemonApi {
     id: number;

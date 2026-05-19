@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { PokemonItem } from "../../store/PokemonStore";
+import { PokemonItem } from "@/types/pokemon";
 import { usePokemonStore } from "../../store/PokemonStore";
 import { typesGradients } from "@/utils/gradients";
 import Link from "next/link";

@@ -1,7 +1,7 @@
 'use client'
 import { CardShine } from "@/app/components/CardShine";
-import { Pokemon } from '../../api/pokemons/route';
-import { PokemonItem } from '../../../store/PokemonStore';
+import { SimplePokemonApi } from "@/facade/PokeApiFacade";
+import { PokemonItem } from "@/types/pokemon";
 import Link from "next/link";
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../store/store';
@@ -21,7 +21,7 @@ async function fetchPool(count: number): Promise<PokemonItem[]> {
     const response = await fetch(`/api/pokemons/random?limit=${count}`);
     const data = await response.json();
     const items: PokemonItem[] = await Promise.all(
-        data.data.map((p: Pokemon) => fetchById(p.name))
+        data.data.map((p: SimplePokemonApi) => fetchById(p.name))
     );
     return items;
 }

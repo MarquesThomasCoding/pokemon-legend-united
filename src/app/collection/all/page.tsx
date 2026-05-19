@@ -1,7 +1,7 @@
 "use client"
 
-import { PokemonItem } from '@/store/PokemonStore';
-import { Pokemon } from '../../api/pokemons/route';
+import { PokemonItem } from '@/types/pokemon';
+import { SimplePokemonApi } from '@/facade/PokeApiFacade';
 import { CardShine } from '../../components/CardShine';
 import { Pagination } from '../../components/Pagination';
 import { useState, useEffect, Suspense } from 'react';
@@ -18,7 +18,7 @@ async function getPokemonsList(page: number) {
   const data = await response.json();
   const pokemonsList: PokemonItem[] = [];
 
-  const promises = data.data.results.map(async (pokemon: Pokemon) => {
+  const promises = data.data.results.map(async (pokemon: SimplePokemonApi) => {
     const data = await getPokemonItem(pokemon.name) as PokemonItem;
     pokemonsList.push(PokemonFactory.createStandard(data));
   });

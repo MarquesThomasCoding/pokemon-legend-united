@@ -1,4 +1,4 @@
-import { PokemonItem } from "@/store/PokemonStore";
+import { PokemonItem } from "@/types/pokemon";
 import { PokeApiFacade } from "@/facade/PokeApiFacade";
 
 export interface ApiResponse {

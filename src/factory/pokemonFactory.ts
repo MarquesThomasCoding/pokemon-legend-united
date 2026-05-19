@@ -1,5 +1,5 @@
 import { withLegendary, withPowerLevel, withShiny, withStars } from "../decorator/pokemonDecorator";
-import type { PokemonItem } from "@/store/PokemonStore";
+import type { PokemonItem } from "@/types/pokemon";
 import type { DecoratedPokemon } from "../decorator/pokemonDecorator";
 
 export class PokemonFactory {

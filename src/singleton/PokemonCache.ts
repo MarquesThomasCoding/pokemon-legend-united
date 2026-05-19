@@ -1,4 +1,4 @@
-import { PokemonItem } from '@/store/PokemonStore';
+import { PokemonItem } from "@/types/pokemon";
 
 export class PokemonCache {
   private static instance: PokemonCache;

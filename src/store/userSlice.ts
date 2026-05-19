@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { PokemonItem } from './PokemonStore'
+import { PokemonItem } from '@/types/pokemon'
 import { GachaStrategyId } from '../types/gacha'
 
 interface User {

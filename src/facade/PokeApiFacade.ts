@@ -1,5 +1,5 @@
 import { PokemonAdapter, RawPokemonApi, RawSpeciesApi } from "@/adapter/PokemonAdapter";
-import { PokemonItem } from "@/store/PokemonStore";
+import { PokemonItem } from "@/types/pokemon";
 
 
 export interface SimplePokemonApi {

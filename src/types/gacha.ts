@@ -1,4 +1,4 @@
-import { PokemonItem } from '@/store/PokemonStore';
+import { PokemonItem } from "./pokemon";
 
 export type GachaStrategyId = 'weighted' | 'guaranteed' | 'pity';
 

@@ -1,4 +1,4 @@
-import { PokemonItem } from '@/store/PokemonStore';
+import { PokemonItem } from "@/types/pokemon";
 
 const tierWeight = (rarity: number): number => {
   if (rarity < 10) return 1;
