@@ -1,11 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { PokemonItem } from './PokemonStore'
+import { GachaStrategyId } from '../types/gacha'
 
 interface User {
   username: string
   pokecoins : number
   redeemCode : string
   gacha: number
+  gachaStrategy: GachaStrategyId
+  pityCounter: number
   cries: boolean
   pokemonTeams: PokemonItem[]
 }
@@ -15,6 +18,8 @@ const initialState: User = {
   pokecoins: 10,
   redeemCode: '',
   gacha: 0,
+  gachaStrategy: 'weighted',
+  pityCounter: 0,
   cries: false,
   pokemonTeams: []
 }
@@ -52,6 +57,12 @@ const usersSlice = createSlice({
     setGacha: (state, action: PayloadAction<number>) => {
         state.gacha = action.payload;
     },
+    setGachaStrategy: (state, action: PayloadAction<GachaStrategyId>) => {
+        state.gachaStrategy = action.payload;
+    },
+    setPityCounter: (state, action: PayloadAction<number>) => {
+        state.pityCounter = action.payload;
+    },
     setPokemonCries: (state, action: PayloadAction<boolean>) => {
         state.cries = action.payload;
     },
@@ -67,5 +78,5 @@ const usersSlice = createSlice({
   }
 })
 
-export const { setUsername, reduceCoins, addCoins, redeemCode, setGacha, setPokemonCries, addPokemonsTeam, removePokemonTeam, setPokemonTeams } = usersSlice.actions
+export const { setUsername, reduceCoins, addCoins, redeemCode, setGacha, setGachaStrategy, setPityCounter, setPokemonCries, addPokemonsTeam, removePokemonTeam, setPokemonTeams } = usersSlice.actions
 export default usersSlice.reducer
