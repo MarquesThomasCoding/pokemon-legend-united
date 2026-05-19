@@ -7,7 +7,7 @@ export interface DecoratedPokemon extends PokemonItem {
   stars?: number;
 }
 
-const LEGENDARY_IDS = [144, 145, 146, 150, 151];
+const DEFAULT_LEGENDARY_IDS = [144, 145, 146, 150, 151];
 
 export function withPowerLevel(pokemon: PokemonItem): DecoratedPokemon {
   let totalPower = 0;
@@ -19,8 +19,8 @@ export function withPowerLevel(pokemon: PokemonItem): DecoratedPokemon {
   return { ...pokemon, powerLevel: totalPower };
 }
 
-export function withLegendary(pokemon: PokemonItem): DecoratedPokemon {
-  return { ...pokemon, isLegendary: LEGENDARY_IDS.includes(pokemon.id) };
+export function withLegendary(pokemon: PokemonItem, legendaryIds: number[] = DEFAULT_LEGENDARY_IDS): DecoratedPokemon {
+  return { ...pokemon, isLegendary: legendaryIds.includes(pokemon.id) };
 }
 
 export function withShiny(pokemon: PokemonItem, shinyChance: number = 0.05): DecoratedPokemon {

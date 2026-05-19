@@ -31,7 +31,7 @@ export class PokemonCache {
     this.cache.set(this.key(idOrName), item);
   }
 
-  async fetch(idOrName: number | string): Promise<PokemonItem> {
+  async getOrFetch(idOrName: number | string, fetcher: (idOrName: number | string) => Promise<PokemonItem>): Promise<PokemonItem> {
     const k = this.key(idOrName);
 
     const cached = this.cache.get(k);
@@ -40,12 +40,11 @@ export class PokemonCache {
     const inflight = this.pending.get(k);
     if (inflight) return inflight;
 
-    const promise = fetch(`/api/pokemons/${idOrName}`)
-      .then(r => r.json())
-      .then((payload: { data: PokemonItem }) => {
-        this.cache.set(k, payload.data);
+    const promise = fetcher(idOrName)
+      .then((data) => {
+        this.cache.set(k, data);
         this.pending.delete(k);
-        return payload.data;
+        return data;
       })
       .catch(err => {
         this.pending.delete(k);
