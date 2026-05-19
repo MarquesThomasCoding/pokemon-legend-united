@@ -7,12 +7,10 @@ import { Pagination } from '../../components/Pagination';
 import { useState, useEffect, Suspense } from 'react';
 import HabitatFilter from '@/app/components/HabitatFilter';
 import TypeFilter from '@/app/components/TypeFilter';
+import { PokemonCache } from '@/singleton/PokemonCache';
 
-async function getPokemonItem(name: string) {
-  const response = await fetch("/api/pokemons/" + name);
-  const data = await response.json();
-  return data.data;
-}
+const getPokemonItem = (name: string): Promise<PokemonItem> =>
+  PokemonCache.getInstance().fetch(name);
 
 async function getPokemonsList(page: number) {
   const response = await fetch("/api/pokemons" + `?page=${page}`);
@@ -20,9 +18,8 @@ async function getPokemonsList(page: number) {
   const pokemonsList: PokemonItem[] = [];
 
   const promises = data.data.results.map(async (pokemon: Pokemon) => {
-    const response = await getPokemonItem(pokemon.name);
-    const data = await response as PokemonItem;
-    pokemonsList.push(data);
+    const item = await getPokemonItem(pokemon.name);
+    pokemonsList.push(item);
   });
 
   await Promise.all(promises);
