@@ -28,6 +28,9 @@ export interface PokemonItem {
     habitat: {
       name: string;
     };
+    powerLevel?: number;
+    isLegendary?: boolean;
+    isShiny?: boolean;
 }
 
 // Définir le type d'action pour le reducer
@@ -49,7 +52,7 @@ const initialState: State = {
 // Créer le reducer
 const pokemonReducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'ADD_POKEMON':
+    case 'ADD_POKEMON': {
       const existingPokemon = state.collection.find((p) => p.id === action.payload.id);
       if (existingPokemon) {
         return {
@@ -61,6 +64,7 @@ const pokemonReducer = (state: State, action: Action): State => {
       } else {
         return { ...state, collection: [...state.collection, { ...action.payload, times: 1 }] };
       }
+    }
     case 'REMOVE_POKEMON':
       return {
         ...state,

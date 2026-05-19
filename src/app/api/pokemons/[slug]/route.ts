@@ -1,4 +1,5 @@
 import { PokemonItem } from "@/store/PokemonStore";
+import { withPowerLevel, withLegendary, withShiny } from "@/decorator/pokemonDecorator";
 
 export interface ApiResponse {
     results: PokemonItem[];
@@ -15,5 +16,9 @@ export async function GET(request: Request, { params }: { params: Promise<{ slug
     data.rarity = dataSpeciesPoke.capture_rate;
     data.habitat = {name: dataSpeciesPoke.habitat.name};
 
-    return Response.json({ data });
+    let decoratedData = withPowerLevel(data);
+    decoratedData = withLegendary(decoratedData);
+    decoratedData = withShiny(decoratedData);
+
+    return Response.json({ data: decoratedData });
 }
