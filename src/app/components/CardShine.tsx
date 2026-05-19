@@ -7,10 +7,11 @@ import { usePokemonStore } from "../../store/PokemonStore";
 import { typesGradients } from "@/utils/gradients";
 import Link from "next/link";
 import { EyeIcon } from "lucide-react";
+import { DecoratedPokemon } from "@/decorator/pokemonDecorator";
 
-export const CardShine = ({ pokemon, show, initialReverse, canSelect}: { pokemon: PokemonItem, show: boolean, initialReverse?: boolean, canSelect?: boolean}) => {
+export const CardShine = ({ pokemon, show, initialReverse, canSelect}: { pokemon: PokemonItem | DecoratedPokemon, show: boolean, initialReverse?: boolean, canSelect?: boolean}) => {
     const { state, dispatch } = usePokemonStore();
-    const isOwned = state.collection.some(item => item.id === pokemon.id);
+    const isOwned = state.collection.some(item => item.id === pokemon.id && !!item.isShiny === !!(pokemon as DecoratedPokemon).isShiny);
     const [reversed, setReversed] = useState(initialReverse);
     const [added, setAdded] = useState(false);
     const [canAddCard, setCanAddCard] = useState(canSelect);
@@ -22,18 +23,7 @@ export const CardShine = ({ pokemon, show, initialReverse, canSelect}: { pokemon
     const handleAddPokemon = async () => {
         if (!added) {
             console.log('Adding pokemon to collection');
-            const newPokemon: PokemonItem = {
-                id: pokemon.id,
-                image: pokemon.image,
-                stats: pokemon.stats,
-                species: pokemon.species,
-                types: pokemon.types,
-                rarity: pokemon.rarity,
-                times: 1,
-                cries: pokemon.cries,
-                habitat: pokemon.habitat,
-            };
-            dispatch({ type: 'ADD_POKEMON', payload: newPokemon });
+            dispatch({ type: 'ADD_POKEMON', payload: pokemon });
             setAdded(true);
         }
     };
@@ -49,15 +39,16 @@ export const CardShine = ({ pokemon, show, initialReverse, canSelect}: { pokemon
             onClick={() => canAddCard ? handleRevealAndAddPokemon() : reverseCard()}
         >
             <div className="w-full h-full absolute top-0 left-0 rounded-xl bg-cover bg-no-repeat" style={{ backgroundImage: 'url(/images/pokemon-card-reverse-2.png)'}}></div>
-            <div className={"[backface-visibility:hidden] absolute top-0 left-0 grid grid-cols-[1fr,auto,auto] w-full h-full rounded-xl bg-gradient-to-r " + (isOwned?'':'grayscale ') + typesGradients[pokemon.types[0].type.name] + " cursor-pointer shadow-md shadow-gray-500"}>
+            <div className={"[backface-visibility:hidden] absolute top-0 left-0 grid grid-cols-[1fr,auto,auto] w-full h-full rounded-xl bg-gradient-to-r " + (isOwned?'':'grayscale ') + typesGradients[pokemon.types[0].type.name] + ((pokemon as DecoratedPokemon).isLegendary ? " ring-4 ring-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.8)] " : "") + ((pokemon as DecoratedPokemon).isShiny ? " outline outline-4 outline-fuchsia-400 shadow-[0_0_30px_rgba(232,121,249,1)] brightness-125 saturate-150 " : "") + " cursor-pointer shadow-md shadow-gray-500"}>
                 <div>
-                    <p className="font-semibold m-4 mb-0">{pokemon.species.name.charAt(0).toUpperCase() + pokemon.species.name.slice(1)}</p>
+                    <p className="font-semibold m-4 mb-0 flex items-center justify-between">
+                        {pokemon.species.name.charAt(0).toUpperCase() + pokemon.species.name.slice(1)}
+                        {(pokemon as DecoratedPokemon).isShiny && <span className="ml-2">✨</span>}
+                    </p>
                     <div className="mx-4 flex gap-1">
-                        <Image className="w-4 h-4" src="/images/star.svg" alt="Star" width={24} height={24} />
-                        {pokemon.rarity < 200 && <Image className="w-4 h-4" src="/images/star.svg" alt="Star" width={24} height={24} />}
-                        {pokemon.rarity < 100 && <Image className="w-4 h-4" src="/images/star.svg" alt="Star" width={24} height={24} />}
-                        {pokemon.rarity < 50 && <Image className="w-4 h-4" src="/images/star.svg" alt="Star" width={24} height={24} />}
-                        {pokemon.rarity < 10 && <Image className="w-4 h-4" src="/images/star.svg" alt="Star" width={24} height={24} />}
+                        {Array.from({ length: (pokemon as DecoratedPokemon).stars || 1 }).map((_, i) => (
+                            <Image key={i} className="w-4 h-4" src="/images/star.svg" alt="Star" width={24} height={24} />
+                        ))}
                     </div>
                 </div>
                 {pokemon.times > 1 && <p className="flex items-center justify-center m-2 p-2 w-8 h-8 rounded-full bg-gray-700 bg-opacity-50 justify-self-end font-bold"><span className="text-xs">x</span>{pokemon.times}</p>}

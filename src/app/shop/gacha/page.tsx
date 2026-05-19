@@ -10,6 +10,7 @@ import { Suspense, useEffect, useState } from "react";
 import Loader from "@/app/components/Loader";
 import { GachaContext, GachaStrategyId } from '@/types/gacha';
 import { bannersById, defaultBannerId } from '@/config/banners';
+import { PokemonFactory } from "@/factory/pokemonFactory";
 
 async function fetchById(idOrName: number | string): Promise<PokemonItem> {
     const response = await fetch(`/api/pokemons/${idOrName}`);
@@ -47,7 +48,8 @@ export default function Page() {
             };
             const { pokemons, newPityCounter } = await strategy.apply(gacha, ctx);
             if (cancelled) return;
-            setRandomCards(pokemons);
+            const rolledPokemons = pokemons.map(p => PokemonFactory.createGachaRoll(p));
+            setRandomCards(rolledPokemons);
             dispatch(setPityCounter(newPityCounter));
             setLoading(false);
         };
