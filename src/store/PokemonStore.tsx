@@ -53,12 +53,16 @@ const initialState: State = {
 const pokemonReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'ADD_POKEMON': {
-      const existingPokemon = state.collection.find((p) => p.id === action.payload.id);
+      const existingPokemon = state.collection.find(
+        (p) => p.id === action.payload.id && !!p.isShiny === !!action.payload.isShiny
+      );
       if (existingPokemon) {
         return {
           ...state,
           collection: state.collection.map((p) =>
-            p.id === action.payload.id ? { ...p, times: p.times + 1 } : p
+            (p.id === action.payload.id && !!p.isShiny === !!action.payload.isShiny) 
+              ? { ...p, times: p.times + 1 } 
+              : p
           ),
         };
       } else {

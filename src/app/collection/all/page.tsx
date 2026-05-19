@@ -7,6 +7,7 @@ import { Pagination } from '../../components/Pagination';
 import { useState, useEffect, Suspense } from 'react';
 import HabitatFilter from '@/app/components/HabitatFilter';
 import TypeFilter from '@/app/components/TypeFilter';
+import { PokemonFactory } from '@/factory/pokemonFactory';
 
 async function getPokemonItem(name: string) {
   const response = await fetch("/api/pokemons/" + name);
@@ -20,9 +21,8 @@ async function getPokemonsList(page: number) {
   const pokemonsList: PokemonItem[] = [];
 
   const promises = data.data.results.map(async (pokemon: Pokemon) => {
-    const response = await getPokemonItem(pokemon.name);
-    const data = await response as PokemonItem;
-    pokemonsList.push(data);
+    const data = await getPokemonItem(pokemon.name) as PokemonItem;
+    pokemonsList.push(PokemonFactory.createStandard(data));
   });
 
   await Promise.all(promises);
