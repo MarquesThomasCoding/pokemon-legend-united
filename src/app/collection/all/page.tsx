@@ -1,28 +1,26 @@
 "use client"
 
-import { PokemonItem } from '@/store/PokemonStore';
-import { Pokemon } from '../../api/pokemons/route';
+import { PokemonItem } from '@/types/pokemon';
+import { SimplePokemonApi } from '@/facade/PokeApiFacade';
 import { CardShine } from '../../components/CardShine';
 import { Pagination } from '../../components/Pagination';
 import { useState, useEffect, Suspense } from 'react';
 import HabitatFilter from '@/app/components/HabitatFilter';
 import TypeFilter from '@/app/components/TypeFilter';
+import { PokemonFactory } from '@/factory/pokemonFactory';
+import { PokemonCache } from '@/singleton/PokemonCache';
 
-async function getPokemonItem(name: string) {
-  const response = await fetch("/api/pokemons/" + name);
-  const data = await response.json();
-  return data.data;
-}
+const getPokemonItem = (name: string): Promise<PokemonItem> =>
+  PokemonCache.getInstance().getOrFetch(name, (id) => fetch(`/api/pokemons/${id}`).then(r => r.json()).then(payload => payload.data));
 
 async function getPokemonsList(page: number) {
   const response = await fetch("/api/pokemons" + `?page=${page}`);
   const data = await response.json();
   const pokemonsList: PokemonItem[] = [];
 
-  const promises = data.data.results.map(async (pokemon: Pokemon) => {
-    const response = await getPokemonItem(pokemon.name);
-    const data = await response as PokemonItem;
-    pokemonsList.push(data);
+  const promises = data.data.results.map(async (pokemon: SimplePokemonApi) => {
+    const data = await getPokemonItem(pokemon.name) as PokemonItem;
+    pokemonsList.push(PokemonFactory.createStandard(data));
   });
 
   await Promise.all(promises);

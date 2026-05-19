@@ -1,34 +1,7 @@
 "use client"
 
+import { PokemonItem } from '@/types/pokemon';
 import { createContext, useReducer, ReactNode, useContext } from 'react';
-
-export interface PokemonItem {
-    id: number;
-    image: string;
-    stats: {
-        base_stat: number;
-        stat: {
-            name: string;
-        };
-    }[];
-    species: {
-        name: string;
-        url: string;
-    };
-    types: {
-        type: {
-            name: string;
-        };
-    }[];
-    rarity: number;
-    times: number;
-    cries: {
-      latest : string;
-    };
-    habitat: {
-      name: string;
-    };
-}
 
 // Définir le type d'action pour le reducer
 type Action =
@@ -49,18 +22,23 @@ const initialState: State = {
 // Créer le reducer
 const pokemonReducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'ADD_POKEMON':
-      const existingPokemon = state.collection.find((p) => p.id === action.payload.id);
+    case 'ADD_POKEMON': {
+      const existingPokemon = state.collection.find(
+        (p) => p.id === action.payload.id && !!p.isShiny === !!action.payload.isShiny
+      );
       if (existingPokemon) {
         return {
           ...state,
           collection: state.collection.map((p) =>
-            p.id === action.payload.id ? { ...p, times: p.times + 1 } : p
+            (p.id === action.payload.id && !!p.isShiny === !!action.payload.isShiny) 
+              ? { ...p, times: p.times + 1 } 
+              : p
           ),
         };
       } else {
         return { ...state, collection: [...state.collection, { ...action.payload, times: 1 }] };
       }
+    }
     case 'REMOVE_POKEMON':
       return {
         ...state,

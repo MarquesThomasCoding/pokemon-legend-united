@@ -1,15 +1,12 @@
-export interface Pokemon {
-    name: string;
-    url: string;
-  }
-  
-  export interface ApiResponse {
-    results: Pokemon[];
-  }
+import { PokeApiFacade, SimplePokemonApi } from "@/facade/PokeApiFacade";
+
+export interface ApiResponse {
+  results: SimplePokemonApi[];
+}
 
 export async function GET(request: Request) {
-    const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=100&offset=0');
-    const data = await res.json();
-    const randomPokemons = data.results.sort(() => Math.random() - 0.5).slice(0, request.url.split('?limit=')[1]);
+    const limit = parseInt(request.url.split('?limit=')[1] || '10');
+    const randomPokemons = await PokeApiFacade.getRandomPokemons(limit);
+    
     return Response.json({ data: randomPokemons });
-  }
+}

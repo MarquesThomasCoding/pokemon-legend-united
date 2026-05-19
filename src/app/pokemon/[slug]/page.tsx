@@ -1,18 +1,6 @@
 import { CardShine } from '@/app/components/CardShine';
 import Link from 'next/link';
-
-async function getSpecificPokemon(name: string) {
-    const resPokemon = await fetch('https://pokeapi.co/api/v2/pokemon/' + name);
-    const data = await resPokemon.json();
-    const resSpeciesPoke = await fetch('https://pokeapi.co/api/v2/pokemon-species/' + name);
-    const dataSpeciesPoke = await resSpeciesPoke.json();
-    
-    data.image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${data.id}.png`;
-    data.rarity = dataSpeciesPoke.capture_rate;
-    data.habitat = {name: dataSpeciesPoke.habitat.name};
-
-    return data;
-}
+import { PokeApiFacade } from '@/facade/PokeApiFacade';
 
 export async function generateStaticParams() {
     const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=100');
@@ -23,14 +11,14 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-    const pokemon = await getSpecificPokemon((await params).slug);
+    const pokemon = await PokeApiFacade.getPokemonDetails((await params).slug);
     return {
         title: pokemon.species.name,
     };
 }
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
-    const pokemon = await getSpecificPokemon((await params).slug);
+    const pokemon = await PokeApiFacade.getPokemonDetails((await params).slug);
     
     return (
         <main className="flex flex-col items-center p-24 gap-4 text-black">
