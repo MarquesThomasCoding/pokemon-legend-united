@@ -1,17 +1,16 @@
 import { CardShine } from '@/app/components/CardShine';
 import Link from 'next/link';
+import { PokemonAdapter, RawPokemonApi, RawSpeciesApi } from '@/adapter/PokemonAdapter';
 
 async function getSpecificPokemon(name: string) {
     const resPokemon = await fetch('https://pokeapi.co/api/v2/pokemon/' + name);
-    const data = await resPokemon.json();
-    const resSpeciesPoke = await fetch('https://pokeapi.co/api/v2/pokemon-species/' + name);
-    const dataSpeciesPoke = await resSpeciesPoke.json();
-    
-    data.image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${data.id}.png`;
-    data.rarity = dataSpeciesPoke.capture_rate;
-    data.habitat = {name: dataSpeciesPoke.habitat.name};
+    const rawPokemon: RawPokemonApi = await resPokemon.json();
 
-    return data;
+    const resSpecies = await fetch('https://pokeapi.co/api/v2/pokemon-species/' + name);
+    const rawSpecies: RawSpeciesApi = await resSpecies.json();
+
+    // L'Adapter transforme les données brutes en PokemonItem
+    return PokemonAdapter.adapt(rawPokemon, rawSpecies);
 }
 
 export async function generateStaticParams() {
